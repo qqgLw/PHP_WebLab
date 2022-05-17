@@ -3,15 +3,11 @@ class Router
 {
   static function route()
   {
-    $parced_url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $received_url = explode('/', $parced_url);
-    //Получаем имя контроллера или "page" по умолчанию
-    $controller_name = !empty($received_url[1]) ? $received_url[1] : 'home';
-    $controller_name = basename($controller_name, '.php');
-    //Получаем имя экшена или "index" по умолчанию
-    $action_name = !empty($received_url[2]) ? $received_url[2] : 'index';
-    //Путь и имя файла контроллера
-    $controller_file = 'app/controllers/'.$controller_name.'_controller.php';
+    $controller_name = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : "home";
+
+    $action_name = isset($_REQUEST['action']) ? $_REQUEST['action'] : "index";
+
+    $controller_file = "app/controllers/".$controller_name.'_controller.php';
     //Проверяем наличие файла контроллера и завершаем работу в случае его отсутствия
     if(file_exists($controller_file)){
         include $controller_file;
