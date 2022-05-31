@@ -6,6 +6,6 @@ class TestController extends Controller
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $this->model->validate($_POST);
       }
-      $this->view->render('test_view.php','Тест по МИО', $this->model);
+      $this->view->render('test/index.php','Тест по МИО', $this->model);
     }
 }

@@ -96,12 +96,11 @@
       <?include 'app/views/'.$content_view;?>
     </article>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?if($title==='Альбом')
     {
-        //echo '<script src="https://unpkg.com/vue@next"></script>';
-        //echo '<script src="../../public/assets/js/album-script.js"></script>'; 
+        echo '<script src="../../public/assets/js/album-script.js" defer>'; 
     }?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../public/assets/js/script.js"></script>
 </body>
 </html>

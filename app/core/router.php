@@ -16,7 +16,6 @@ class Router
         die("ОШИБКА! Файл контроллера $controller_file не найден!");
     }
     //Создаем экземпляр контроллера
-    $controller_name = is_numeric($controller_name) ? '_'.$controller_name : $controller_name;
     $controller_class_name = ucfirst($controller_name).'Controller';
     $controller = new $controller_class_name;
     //Получаем имя модели и имя файла модели
@@ -45,6 +44,6 @@ class Router
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
 		header("Status: 404 Not Found");
-		header('Location:'.$host.'404');
+		header('Location:'.$host.'error');
     }
 }

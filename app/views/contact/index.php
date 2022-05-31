@@ -2,7 +2,6 @@
   <h1>Напишите мне на  эл. почту</h1>
 </header> 
 <section>
-  <!-- <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> -->
   <form method="POST">
     <div>
         <label for="name">ФИО</label>

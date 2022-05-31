@@ -10,6 +10,11 @@ window.onload = () => {
     } catch (error) {
       console.log(error);
     }
+    try {
+      setModal();
+    } catch (error) {
+      console.log(error);
+    }
     saveHistory(document.title);
 }
 
@@ -221,7 +226,6 @@ function saveHistory(name) {
   localStorage.setItem(name, parseInt(localStorage.getItem(name)) + 1);
   //console.log(localStorage[name]);
 let thisCookRecord = getCookie(name) || 0;
-console.log(thisCookRecord);
   setCookie(name, parseInt(thisCookRecord)+ 1);
 }
 //we need default NUMBER in value to perform later inc

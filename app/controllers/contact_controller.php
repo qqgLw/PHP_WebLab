@@ -6,6 +6,6 @@ class ContactController extends Controller
       if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $this->model->validate($_POST);
       }
-      $this->view->render('contact_view.php','Контакт-форма', $this->model);
+      $this->view->render('contact/index.php','Контакт-форма', $this->model);
     }
 }
