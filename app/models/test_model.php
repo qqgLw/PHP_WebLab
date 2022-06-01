@@ -16,6 +16,8 @@
     public $positiveVerifMes = 'Тест пройден';
     public $negativeVerifMes = 'Тест не пройден';
 
+    public $testResults = [];
+
     protected $data_preparing_schema = [
       [
         'type' => 'CheckBox',

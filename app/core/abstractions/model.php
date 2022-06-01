@@ -22,7 +22,7 @@
         } else $content = $this->prepareInputContent($content);
         $this->bufferedFields[$field]=$content;
       }
-      $this->validator->validate($this->bufferedFields);
+      $this->bufferedFields=$this->validator->validate($this->bufferedFields);
     }
 
     function prepareInputContent($input){

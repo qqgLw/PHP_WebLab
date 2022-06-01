@@ -35,7 +35,6 @@
         foreach ($element['consistsOf'] as $value) {
           if (array_key_exists($value, $form_data))
             array_push($form_data[$containerFieldName], $form_data[$value]);
-            unset($form_data[$value]);
         }
       }
     }

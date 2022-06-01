@@ -5,7 +5,6 @@
       <header><a class="alt-href" href="/study"><p>Учеба</p></a></header>
       <span style="font-weight: bold;" class="validate-result"><?if(isset($model->bufferedFields['submit'])) echo ($model->validator->isTestValid())? $model->positiveValidMes : $model->negativeValidMes?></span>
       <span style="font-weight: bold;" class="verify-result"><?if(isset($model->bufferedFields['submit']) and $model->validator->isTestValid()) echo ($model->validator->isResultsRight())? $model->positiveVerifMes : $model->negativeVerifMes?></span>
-      <!-- <?var_dump($_POST)?> -->
       <form method="POST">
           <p>Введите ФИО:</p>
           <div>
@@ -78,3 +77,24 @@
           </div>
       </form>
 </section>
+
+<?php 
+    foreach ($model->testResults as $result)
+    {
+        echo '<section class="container" style="max-width: 70%;">';
+        echo '<div class="question">';
+            echo '<br>';
+            echo '<div class="centered">';
+                echo 'Ответы '.$result->name;
+            echo '</div>';
+            echo '<div> Вопрос 1: '.$result->ans_1.'</div>';
+            echo '<div> Вопрос 2: '.$result->ans_2.'</div>';
+            echo '<div> Вопрос 3: '.$result->ans_3.'</div>';
+            echo '<div> Отвечено верно: '.(($result->iscorrect==='1')?'true':'false').'</div>';
+            echo '<div>Группа: '.$result->ngroup.'</div>';
+            echo '<div>Дата: '.$result->date.'</div>';
+        echo '</div>';
+        echo '</section>';
+        echo '<br>';
+    }
+?>
