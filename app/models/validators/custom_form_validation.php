@@ -9,15 +9,6 @@
         $this->data_preparing_schema=$specified_schema;
     }
 
-    function isTestValid()
-    {
-      foreach ($this->validation_marks as $key => $value) {
-        if ($this->isNotEmpty($value['error']))
-          return false;
-      }
-      return true;
-    }
-
     function hasMoreThanThreeElements($data)
     {
       return (count($data)>=3);
@@ -35,6 +26,7 @@
         foreach ($element['consistsOf'] as $value) {
           if (array_key_exists($value, $form_data))
             array_push($form_data[$containerFieldName], $form_data[$value]);
+            unset($form_data[$value]);
         }
       }
     }

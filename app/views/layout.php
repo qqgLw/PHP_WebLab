@@ -87,6 +87,26 @@
                         </div>
                         <a href="/test">Тест</a>
                     </li>
+                    <li
+                        class="menu-tag" name="Мой блог"
+                        onmouseover="onMouseOverImage(this)"
+                        onmouseout="onMouseOutImage(this)"
+                    >
+                        <div class="menu__image-wrapper">
+                              <img src="../../public/assets/img/1.jpg" alt="" class="menu__image" />
+                        </div>
+                        <a href="/blog">Мой Блог</a>
+                    </li>
+                    <li
+                        class="menu-tag" name="Гостевая книга"
+                        onmouseover="onMouseOverImage(this)"
+                        onmouseout="onMouseOutImage(this)"
+                    >
+                        <div class="menu__image-wrapper">
+                              <img src="../../public/assets/img/1.jpg" alt="" class="menu__image" />
+                        </div>
+                        <a href="/guestbook">Гостевая книга</a>
+                    </li>
               </ul>
           </nav>
           <div id="time" style="color: white; text-align: center;"></div>

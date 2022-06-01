@@ -48,13 +48,13 @@
 foreach ($model->blogs as $blog)
 {
     echo '<section class="container blog">';
-    if (!empty($blog->image))
-        echo '<img class="blog-img" src="'.$blog->image.'">';
-    echo '<div class="blog-text text-container">';
-    echo '<div class="blog-text text-author">'.$blog->author.'</div><br>';
-    echo '<div class="blog-text text-subject">'.$blog->subject.'</div><br>';
-    echo '<div class="blog-text text-content">'.$blog->message.'</div><br>';
-    echo '<div class="blog-text text-date">'.$blog->date.'</div><br>';
+    if (!empty($blog->imageGUID))
+        echo '<img src="'.$blog->imageGUID.'">';
+    echo '<div>';
+    echo '<div>'.$blog->author.'</div><br>';
+    echo '<div>'.$blog->subject.'</div><br>';
+    echo '<div>'.$blog->message.'</div><br>';
+    echo '<div>'.$blog->date.'</div><br>';
     echo '</div>';
     echo '</section><br>';
 }

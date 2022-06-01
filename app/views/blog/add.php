@@ -1,28 +1,25 @@
 <section class="container" style="max-width: 70%;">
     <h1 class="centered">
-        Редактор блога
+        Редактор блога 
     </h1>
     <div class="contact">
         <form name="blogForm" method="POST" enctype="multipart/form-data">
             <label for="author">Имя</label>
-            <input name="author" placeholder="Имя" type="text" value="<?php echo $model->author ?>">
+            <input name="author" placeholder="Имя" type="text" value="<?php echo $model->bufferedFields['author'] ?>">
             <label class="error-block" for="author" id="author-error">
-                <?php echo $model->showError('name'); ?>
+                <?php echo $model->validator->validation_marks['author']['error']; ?>
             </label>
             <label for="subject">Тема</label>
-            <input name="subject" placeholder="Тема" type="subject" value="<?php echo $model->subject ?>">
+            <input name="subject" placeholder="Тема" type="subject" value="<?php echo $model->bufferedFields['subject']  ?>">
             <label class="error-block" for="subject" id="subject-error">
-                <?php echo $model->showError('subject'); ?>
+                <?php echo $model->validator->validation_marks['subject']['error']; ?>
             </label>
             <label for="image">Файл изображения</label>
             <input type="file" name="image">
-            <label class="error-block" for="image" id="image-error">
-                <?php echo $model->showError('image'); ?>
-            </label>
             <label for="message">Сообщение</label>
-            <textarea name="message" name="message" placeholder="Сообщение"><?php echo $model->message; ?></textarea>
+            <textarea name="message" name="message" placeholder="Сообщение"><?php echo $model->bufferedFields['message'] ; ?></textarea>
             <label class="error-block" for="message" id="message-error">
-                <?php echo $model->showError('message'); ?>
+                <?php echo $model->validator->validation_marks['message']['error']; ?>
             </label>
             <div class="submit-container">
                 <input class="submit" type="submit" id="submit-button" value="Отправить">
@@ -82,13 +79,13 @@
 foreach ($model->blogs as $blog)
 {
     echo '<section class="container blog">';
-    if (!empty($blog->image))
-        echo '<img class="blog-img" src="'.$blog->image.'">';
-    echo '<div class="blog-text text-container">';
-    echo '<div class="blog-text text-author">'.$blog->author.'</div><br>';
-    echo '<div class="blog-text text-subject">'.$blog->subject.'</div><br>';
-    echo '<div class="blog-text text-content">'.$blog->message.'</div><br>';
-    echo '<div class="blog-text text-date">'.$blog->date.'</div><br>';
+    if (!empty($blog->imageGUID))
+        echo '<img src="'.$blog->imageGUID.'">';
+    echo '<div>';
+    echo '<div>'.$blog->author.'</div><br>';
+    echo '<div>'.$blog->subject.'</div><br>';
+    echo '<div>'.$blog->message.'</div><br>';
+    echo '<div>'.$blog->date.'</div><br>';
     echo '</div>';
     echo '</section><br>';
 }

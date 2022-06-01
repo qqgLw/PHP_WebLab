@@ -82,4 +82,12 @@
       }
       return $form_data;
     }
+    function isTestValid()
+    {
+      foreach ($this->validation_marks as $key => $value) {
+        if ($this->isNotEmpty($value['error']))
+          return false;
+      }
+      return true;
+    }
   }
