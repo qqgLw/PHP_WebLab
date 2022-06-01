@@ -79,6 +79,8 @@
 </section>
 
 <?php 
+if (isset($_SESSION['Logged']))
+{
     foreach ($model->testResults as $result)
     {
         echo '<section class="container" style="max-width: 70%;">';
@@ -97,4 +99,5 @@
         echo '</section>';
         echo '<br>';
     }
+}
 ?>

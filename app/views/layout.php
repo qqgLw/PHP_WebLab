@@ -11,6 +11,13 @@
     <header>
           <nav>
               <ul>
+              <?php if (isset($_SESSION['FIO']))
+                {
+                    echo '<div class="centered">';
+                    echo 'Пользователь: '.$_SESSION['FIO'];
+                    echo '</div>';
+                }
+                ?>  
                     <li
                         class="menu-tag" name="Главная страница"
                         onmouseover="onMouseOverImage(this)"
@@ -107,6 +114,18 @@
                         </div>
                         <a href="/guestbook">Гостевая книга</a>
                     </li>
+                    <li
+                        class="menu-tag" name="Авторизация"
+                        onmouseover="onMouseOverImage(this)"
+                        onmouseout="onMouseOutImage(this)"
+                    >
+                        <div class="menu__image-wrapper">
+                              <img src="../../public/assets/img/1.jpg" alt="" class="menu__image" />
+                        </div>
+                        <a href="<?php echo isset($_SESSION['Logged']) ? '/auth/logout' : '/auth/index'?>"><?php echo isset($_SESSION['Logged']) ? 'Выход' : 'Вход'?></a>
+                    </li>
+                    <li>
+                </li>
               </ul>
           </nav>
           <div id="time" style="color: white; text-align: center;"></div>

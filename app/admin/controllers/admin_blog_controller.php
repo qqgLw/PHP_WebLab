@@ -1,20 +1,21 @@
 <?php
+require 'app/core/admin_controller.php';
 require 'app/entities/blog.php';
-class BlogController extends Controller
+class AdminBlogController extends AdminController
 {
     protected static $imagesPath = 'app/stored/images/';
     
     function index() 
-    {
+    {        
+        $this->authenticate();
+
         $this->loadBlog();
-        $this->view->render("blog/index.php", "Мой блог", $this->model, "layout.php");
+        $this->view->render("blog/index.php", "Мой блог", $this->model, "_admin_layout.php");
     }
     function add()
     {
-        if (!isset($_SESSION['isAdmin'])) {
-            header('Location:/admin/auth/index');
-            exit;
-        }
+        $this->authenticate();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             $this->model->validate($_POST);
@@ -24,20 +25,18 @@ class BlogController extends Controller
             }
         }
         $this->loadBlog();
-        $this->view->render("blog/add.php", "Редактор блога", $this->model, "layout.php");
+        $this->view->render("blog/add.php", "Редактор блога", $this->model, "_admin_layout.php");
     }
 
     function load()
     {
-        if (!isset($_SESSION['isAdmin'])) {
-            header('Location:/admin/auth/index');
-            exit;
-        }
+        $this->authenticate();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             $this->loadNewMessagesFile();
         }
-        $this->view->render("blog/load.php", "Загрузка сообщений блога", $this->model, "layout.php");
+        $this->view->render("blog/load.php", "Загрузка сообщений блога", $this->model, "_admin_layout.php");
     }
     
     function loadBlog() 

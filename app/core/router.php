@@ -3,11 +3,25 @@ class Router
 {
   static function route()
   {
+    session_start();
+
+    if(isset($_REQUEST['admin_area'])){
+        $admin_path = 'admin/';
+        $admin_file_prefix = 'admin_';
+        $admin_class_prefix = 'Admin';
+    } 
+    else
+    {
+        $admin_path = '';
+        $admin_file_prefix = '';
+        $admin_class_prefix = '';
+    }
+
     $controller_name = isset($_REQUEST["controller"]) ? $_REQUEST["controller"] : "home";
 
     $action_name = isset($_REQUEST['action']) ? $_REQUEST['action'] : "index";
 
-    $controller_file = "app/controllers/".$controller_name.'_controller.php';
+    $controller_file = "app/${admin_path}controllers/".$admin_file_prefix.$controller_name.'_controller.php';
     //Проверяем наличие файла контроллера и завершаем работу в случае его отсутствия
     if(file_exists($controller_file)){
         include $controller_file;
@@ -16,7 +30,7 @@ class Router
         die("ОШИБКА! Файл контроллера $controller_file не найден!");
     }
     //Создаем экземпляр контроллера
-    $controller_class_name = ucfirst($controller_name).'Controller';
+    $controller_class_name = $admin_class_prefix.ucfirst($controller_name).'Controller';
     $controller = new $controller_class_name;
     //Получаем имя модели и имя файла модели
     $model_name = $controller_name.'_model';

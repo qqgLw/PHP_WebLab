@@ -13,7 +13,7 @@
           $this->rules[$field]=$rulesList;
         }
     }
-
+    function idle($data){return true;}
     function isNotEmpty($data)
     {
       return isset($data) and !empty($data);
