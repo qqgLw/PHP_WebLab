@@ -272,13 +272,16 @@ a.alt-href:hover {
   transition: 200ms ease-in-out;
   border: 1px solid #ffffff;
   border-radius: 10px;
-  z-index: 10;
   background-color: rgba(0, 0, 0, 0.95);
+  z-index: 10;
   width: 500px;
   max-width: 80%;
 }
 
 .nmodal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+.modal.active {
   transform: translate(-50%, -50%) scale(1);
 }
 
@@ -300,14 +303,15 @@ a.alt-href:hover {
 .nmodal-title {
   font-size: 1.25rem;
   font-weight: bold;
+  color: white;
 }
 
 .nmodal-header .close-button {
   cursor: pointer;
   border: none;
   outline: none;
+  color:black;
   background: none;
-  color: #ffa113;
   font-size: 2rem;
   font-weight: bold;
 }
@@ -316,6 +320,9 @@ a.alt-href:hover {
   padding: 10px 15px;
 }
 
+.nmodal-body label {
+  color:white;
+}
 #overlay {
   position: fixed;
   opacity: 0;
