@@ -7,7 +7,6 @@ class UserRecord extends BaseActiveRecord {
 
     public $id;
     public $fio;
-    public $email;
     public $login;
     public $password;
     
@@ -16,18 +15,27 @@ class UserRecord extends BaseActiveRecord {
         parent::__construct();
     }
 
-    public static function findByLogin($login)
+    public static function findByLogin($login=false)
     {
-        $sql = "SELECT * FROM ".static::$tablename." WHERE login='$login'";
-        $stmt = static::$pdo->query($sql);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$row) {
+        if ($login===false) return null;
+        $tablename = static::$tablename;
+        $login_prepare = ":__login";
+        $prepare = static::$pdo->prepare("SELECT * FROM `$tablename` WHERE `login` = $login_prepare");
+        $prepare->bindValue($login_prepare, $login);
+
+        if ($prepare->execute()) 
+        {
+            $row = $prepare->fetch(\PDO::FETCH_ASSOC);
+            if ($row === false) 
+                return null;
+            $ar_obj = new static();
+            foreach ($row as $key => $value) {
+                $ar_obj ->$key = $value;
+            }
+            return $ar_obj;
+        }
+        else {
             return null;
         }
-        $ar_obj = new static();
-        foreach ($row as $key => $value) {
-            $ar_obj ->$key = $value;
-        }
-        return $ar_obj;
     }
 } 

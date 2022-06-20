@@ -1,20 +1,19 @@
 <section class="container">
     <h1 class="centered">
-        Авторизация пользователя <?=isset($_SESSION['Logged'])?'y':'n'?>
+        Авторизация пользователя <br/> <?=isset($_SESSION['Logged'])?'y':'n'?>
         <?php
             if(isset($model->bufferedFields['submit'])){
-            if (isset($_SESSION['LastError'])){
-                if(($_SESSION['LastError']) == 'WrongPass')
-                {
-                    echo "Неверный пароль";
+                if (isset($_SESSION['LastError'])){
+                    if(($_SESSION['LastError']) == 'WrongPass')
+                    {
+                        echo "Неверный пароль";
+                    }
+                    if(($_SESSION['LastError']) == 'WrongUser')
+                    {
+                        echo "Пользователя с таким логином не существует";
+                    }
                 }
             }
-            if (isset($_SESSION['LastError'])){
-                if(($_SESSION['LastError']) == 'WrongUser')
-                {
-                    echo "Пользователя с таким логином не существует";
-                }
-            }}
         ?>
     </h1>
     <div class="contact">

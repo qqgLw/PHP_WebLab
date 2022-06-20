@@ -6,10 +6,10 @@ class AuthModel extends Model
           'rules' => ['idle'], 
           'errorText' => 'Введите ваши Фамилию, Имя и Отчество'
         ],
-        'email' => [
-          'rules' => ['idle'], 
-          'errorText' => 'errorNo1'
-        ],
+        // 'email' => [
+        //   'rules' => ['idle'], 
+        //   'errorText' => 'errorNo1'
+        // ],
         'login' => [
           'rules' => ['isNotEmpty'], 
           'errorText' => 'err3'

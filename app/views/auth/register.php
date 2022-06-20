@@ -10,14 +10,8 @@
                 <?php echo $model->validator->validation_marks['fio']['error']; ?>
             </label>
 
-            <label for="email">Электронная почта</label>
-            <input name="email" placeholder="Электронная почта" type="email" value="<?php echo $model->bufferedFields['email'] ?>">
-            <label class="error-block" for="email" id="email-error">
-                <?php echo$model->validator->validation_marks['email']['error']; ?>
-            </label>
-
             <label for="login">Логин</label>
-            <input name="login" placeholder="Логин" type="text" value="<?php echo $model->bufferedFields['login'] ?>">
+            <input name="login" placeholder="Логин" onchange="checkLogin(this);" type="text" value="<?php echo $model->bufferedFields['login'] ?>">
             <label class="error-block" for="login" id="login-error">
                 <?php echo $model->validator->validation_marks['login']['error']; ?>
             </label>
@@ -30,7 +24,46 @@
 
             <div class="submit-container">
                 <input class="submit" type="submit" id="submit-button" value="Регистрация">
+                <!-- <a onclick="checkLogin()" name="check-login" class="alt-href">Проверка логина</a> -->
             </div>
         </form>
     </div>
+
+    <script>
+
+        function checkLogin(iLogin) {
+
+            const login = iLogin.value;
+
+            if (typeof login !== 'undefined' && login.length) {
+                const payload = "<data><login>" + login + "</login></data>";
+                fetch("/auth/checkLogin", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/xml; charset=UTF-8',
+                    },
+                    body: payload
+                }).then(respone => {
+                    switch (respone.status){
+                        case 200:
+                            $("#login-error").append("<p>Логин уникален</p>");
+                            alert("Норм!")
+                            break;
+
+                        case 400:
+                            $("#login-error").append("<p>!!!Логин неуникален!!!</p>");
+                            alert("Нe норм!")
+                            break;
+
+                        default:
+                            alert("Неожиданный ответ от сервера!")
+                            break;
+                    }
+                }).catch((error)=>{
+                    alert(`Ошибка сервера: ${error}`);
+                })
+            }
+        }
+
+    </script>
 </section>

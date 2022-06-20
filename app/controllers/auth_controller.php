@@ -83,11 +83,10 @@ class AuthController extends Controller
     {
         $model = $this->model;
         $user = new UserRecord();
-        $otherUser = UserRecord::findByLogin($model->login);
-        if ($otherUser != NULL)
+        $otherUser = UserRecord::findByLogin($model->bufferedFields['login']);
+        if ($otherUser !== null)
         {
-            header('Location:/auth/register');
-            header('Error:UserExists');
+            header('Location:/auth/register?mes=UserExists');
             exit;
         }
         $user->fio = $model->bufferedFields['fio'];
@@ -95,5 +94,32 @@ class AuthController extends Controller
         $user->email = $model->bufferedFields['email'];
         $user->login = $model->bufferedFields['login'];
         $user->save();
+    }
+
+    public function checkLogin()
+    {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if($contentType === "text/xml; charset=UTF-8") {
+
+            $content = trim(file_get_contents("php://input"));
+            $dataDecoded = simplexml_load_string ($content);
+
+            $login = utf8_encode($dataDecoded->login);
+
+            if(!isset($login)){
+                http_response_code(422);
+                error_log("Не предоставлены данные о логине");
+                exit;
+            }
+            if (UserRecord::findByLogin($login)!==null) {
+                http_response_code(400);
+                error_log("Отправлен неуникальный login");
+                exit;
+            }
+
+            http_response_code(200);
+            exit;   
+        }
     }
 }
