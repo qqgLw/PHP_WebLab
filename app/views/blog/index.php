@@ -124,19 +124,18 @@
 <div id="overlay"></div>
 
 <script>
-    var overlay = $("#overlay").get(0);
 
     function openModal(modal) {
         if (modal == null) return;
         modal.classList.add('active');
-        overlay.classList.add('active');
+        $('#overlay').classList.add('active');
         $('#overlay').blur();
     }
 
     function closeModal(modal) {
         if (modal == null) return;
         modal.classList.remove('active');
-        overlay.classList.remove('active');
+        $('#overlay').classList.remove('active');
         $(".nmodal-body").empty();
     }
 
@@ -200,10 +199,10 @@
                 blogId: publicationId
             }, function(result) {
                 let blogInfo = JSON.parse(result);
-                blogTitle.value = blogInfo.title;
+                blogTitle.value = blogInfo.subject;
                 blogMessage.value = blogInfo.message;
 
-                old_blogTitle = blogInfo.title;
+                old_blogTitle = blogInfo.subject;
                 old_blogMessage = blogInfo.message;
             });
 

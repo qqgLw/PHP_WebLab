@@ -121,6 +121,7 @@ class BaseActiveRecord{
             $sqlvalues = $sqlvalues.':'.$field;
             $sqlfields = $sqlfields.$field;
         }
+        var_dump($sqlvalues);
         $sql = "INSERT INTO ".static::$tablename." (".$sqlfields.") VALUES (".$sqlvalues.")";
         $stmt = static::$pdo->prepare($sql);
         $stmt->execute($data);

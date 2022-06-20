@@ -209,7 +209,9 @@ class BlogController extends Controller
     function getPublicationInfo()
     {
         $id = $_POST['blogId'];
-        $blog = BlogRecord::find($id);
+        if(!isset($id))
+            http_response_code(400);
+        $blog = BlogRecord::findById($id);
         $blog = BlogRecord::recordToArray($blog);
         echo (json_encode($blog));
     }
@@ -236,10 +238,9 @@ class BlogController extends Controller
                 $id = $decoded['id'];
                 $title = $decoded['title'];
                 $message = $decoded['message'];
-                
-                $blog = BlogRecord::find($id);
+                $blog = BlogRecord::findById($id);
                 if($blog==null){
-                    http_response_code(400);
+                    http_response_code(422);
                     error_log("Отправлен неккоректный id публикации");
                     exit;
                 }
@@ -247,11 +248,13 @@ class BlogController extends Controller
                 if(gettype($blog) == 'object'){
                     $blog->subject = $title;
                     $blog->message = $message;
-                    if($blog->save()){
+                    $result = $blog->save();
+                    if($result){
                         http_response_code(200);
                         echo(json_encode(BlogRecord::recordToArray($blog)));
                         exit;
                     }else{
+                        var_dump($result);
                         http_response_code(400);
                         error_log("Не получилось сохранить изменения");
                         exit;
@@ -259,7 +262,7 @@ class BlogController extends Controller
                     
                 }
             } else {
-                http_response_code(400);
+                http_response_code(418);
                 error_log("Вы отправили неправильный json");
             }
         }
