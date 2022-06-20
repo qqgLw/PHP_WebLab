@@ -1,5 +1,9 @@
 <?php
+require __DIR__.'/../core/active_record.php';
 require 'app/entities/blog.php';
+require 'app/entities/comment.php';
+require 'app/entities/user.php';
+
 class BlogController extends Controller
 {
     protected static $imagesPath = 'app/stored/images/';
@@ -67,6 +71,7 @@ class BlogController extends Controller
             $this->model->page = $page;
             $this->model->pageSize = $pageSize;
             $this->model->maxPages = intdiv($blogRecord->count() - 1, $pageSize) + 1;
+            $this->model->comments = $this->getAllBlogComments();
         }
     }
 
@@ -142,6 +147,121 @@ class BlogController extends Controller
                 .substr($charid,16, 4).$hyphen
                 .substr($charid,20,12);
             return $uuid;
+        }
+    }
+
+    function getAllBlogComments(){
+        $result = [];
+        $messages = $this->model->blogs;
+        if (!empty($messages)){
+            foreach ($messages as $message) {
+                $blogComments = [];
+                $comments = CommentRecord::blogComments($message->id);
+                if ($comments) {
+                    foreach ($comments as $comment) {
+                        //$author = UserRecord::find($comment->author_id);
+                        //$comment['author'] = $author->fio;
+                        $blogComments[] = $comment;
+                    }
+                    $result[$message->id] = $blogComments;
+                }
+            }
+        }
+        return $result;
+    }
+
+    function loadComment()
+    {
+        session_start();
+        $valid = (isset($_POST["commentText"]) && isset($_POST["publicationId"]) && isset($_POST["publicationId"]) && isset($_SESSION["userId"]));
+        if (!$valid) {
+            http_response_code(400);
+        } else {
+            $commentText = $_POST["commentText"];
+            $publicationId = $_POST["publicationId"];
+            $userId = $_SESSION["userId"];
+
+            $comment = new CommentRecord();
+            $comment->blog_id = (int)$publicationId;
+            $comment->author_id = (int)$userId;
+            $comment->text = $commentText;
+            $comment->created = date("Y/m/d h:i:sa");
+            $comment->save();
+
+            $author = $_SESSION['FIO'];
+            $respose = "<p><small style=\"color: #ffa113;\">
+            <b>$author</b></small></p>
+            <p>$comment->text</p>
+            <p>$comment->created</p>
+            <hr>";
+
+            header('Content-Type: text/html; charset=UTF-8');
+            echo $respose;
+            http_response_code(200);
+        }
+        exit;
+    }
+
+    function addCommentToBlog(){
+
+    }
+
+    function getPublicationInfo()
+    {
+        $id = $_POST['blogId'];
+        $blog = BlogRecord::find($id);
+        $blog = BlogRecord::recordToArray($blog);
+        echo (json_encode($blog));
+    }
+
+    function editBlog()
+    {
+        if (!isset($_SESSION['isAdmin'])) {
+            header('Location:/admin/auth/index');
+            exit;
+        }
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            if (is_array($decoded)) {
+                if(!(isset($decoded['id'])&&isset($decoded['title'])&&isset($decoded['message']))){
+                    http_response_code(400);
+                    error_log("Вы не отправили все необходимые данные");
+                    exit;
+                }
+                
+                $id = $decoded['id'];
+                $title = $decoded['title'];
+                $message = $decoded['message'];
+                
+                $blog = BlogRecord::find($id);
+                if($blog==null){
+                    http_response_code(400);
+                    error_log("Отправлен неккоректный id публикации");
+                    exit;
+                }
+
+                if(gettype($blog) == 'object'){
+                    $blog->subject = $title;
+                    $blog->message = $message;
+                    if($blog->save()){
+                        http_response_code(200);
+                        echo(json_encode(BlogRecord::recordToArray($blog)));
+                        exit;
+                    }else{
+                        http_response_code(400);
+                        error_log("Не получилось сохранить изменения");
+                        exit;
+                    }
+                    
+                }
+            } else {
+                http_response_code(400);
+                error_log("Вы отправили неправильный json");
+            }
         }
     }
 }

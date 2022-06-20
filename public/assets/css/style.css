@@ -264,6 +264,77 @@ a.alt-href:hover {
   color: #818181c0;
 }
 
+.nmodal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.95);
+  width: 500px;
+  max-width: 80%;
+}
+
+.nmodal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.nmodal-header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(255, 255, 255);
+}
+
+.nmodal-footer {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nmodal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.nmodal-header .close-button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  color: #ffa113;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.nmodal-body {
+  padding: 10px 15px;
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  transition: 200ms ease-in-out;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+#overlay.active {
+  pointer-events: all;
+  opacity: 1;
+  backdrop-filter: blur(12px);
+}
+
+
 .modal {
   display: none;
   position: fixed;

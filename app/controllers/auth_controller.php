@@ -39,6 +39,7 @@ class AuthController extends Controller
         if (isset($_SESSION['Logged']))
         {
             unset($_SESSION['Logged']);
+            unset($_SESSION['ID']);
             unset($_SESSION['FIO']);
         }
         session_destroy();
@@ -62,6 +63,7 @@ class AuthController extends Controller
             {
                 $_SESSION['Logged'] = 1;
                 $_SESSION['FIO'] = $user->fio;
+                $_SESSION['ID'] = $user->id;
                 unset($_SESSION['LastError']);
                 header('Location:/home/index');
                 exit;
@@ -112,7 +114,7 @@ class AuthController extends Controller
                 error_log("Не предоставлены данные о логине");
                 exit;
             }
-            if (UserRecord::findByLogin($login)!==null) {
+            if (UserRecord::findByLogin($login)!=null) {
                 http_response_code(400);
                 error_log("Отправлен неуникальный login");
                 exit;

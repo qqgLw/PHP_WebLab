@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/../core/active_record.php';
+require_once __DIR__.'/../core/active_record.php';
 
 class UserRecord extends BaseActiveRecord {
     protected static $tablename = 'users';

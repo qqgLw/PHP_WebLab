@@ -6,6 +6,7 @@ class BlogModel extends Model
     public $pageSize = 5;
 
     public $blogs = [];
+    public $comments = [];
 
     protected $validation_schema = [
         'author' => [

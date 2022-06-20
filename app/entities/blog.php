@@ -1,5 +1,4 @@
 <?php
-require __DIR__.'/../core/active_record.php';
 class BlogRecord extends BaseActiveRecord {
     protected static $tablename = 'blogs';
     protected static $dbfields = array();
@@ -14,5 +13,14 @@ class BlogRecord extends BaseActiveRecord {
     public function __construct() 
     {
         parent::__construct();
+    }
+
+    public static function recordToArray($blog)
+    {
+        $b = [];
+        foreach(self::$dbfields as $field=>$type){
+            $b[$field] = $blog->$field;
+        }
+        return $b;
     }
 } 
